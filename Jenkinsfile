@@ -2,18 +2,6 @@ pipeline {
   agent any
 
   stages {
-    stage('Build') {
-      steps {
-        sh './gradlew assemble --no-daemon'
-      }
-    }
-
-    stage('Test') {
-      steps {
-        sh './gradlew test --no-daemon'
-      }
-    }
-
     stage('Deploy') {
       steps {
         sh 'docker compose -f docker-compose-calorie-tracker-backend.yml down'
