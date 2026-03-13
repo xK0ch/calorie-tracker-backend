@@ -2,7 +2,7 @@
 FROM gradle:8.13-jdk21-alpine AS build
 WORKDIR /app
 
-COPY build.gradle.kts settings.gradle.kts ./
+COPY build.gradle settings.gradle ./
 RUN gradle dependencies --no-daemon
 
 COPY src ./src
