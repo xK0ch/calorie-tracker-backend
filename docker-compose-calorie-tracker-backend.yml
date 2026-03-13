@@ -1,0 +1,29 @@
+services:
+  calorie-tracker-db:
+    image: postgres:17-alpine
+    container_name: calorie-tracker-db
+    environment:
+      POSTGRES_DB: calorietracker
+      POSTGRES_USER: calorietracker
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-calorietracker}
+    volumes:
+      - ct-db-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+
+  calorie-tracker-backend:
+    build: .
+    container_name: calorie-tracker-backend
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://calorie-tracker-db:5432/calorietracker
+      SPRING_DATASOURCE_USERNAME: calorietracker
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD:-calorietracker}
+    ports:
+      - "8080:8080"
+    depends_on:
+      - calorie-tracker-db
+    restart: unless-stopped
+
+volumes:
+  ct-db-data:
