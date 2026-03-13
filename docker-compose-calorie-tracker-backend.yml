@@ -10,6 +10,8 @@ services:
       - ct-db-data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+    networks:
+      - calorie-tracker-net
     restart: unless-stopped
 
   calorie-tracker-backend:
@@ -23,7 +25,13 @@ services:
       - "8080:8080"
     depends_on:
       - calorie-tracker-db
+    networks:
+      - calorie-tracker-net
     restart: unless-stopped
 
 volumes:
   ct-db-data:
+
+networks:
+  calorie-tracker-net:
+    name: calorie-tracker-net
